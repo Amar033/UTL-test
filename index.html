@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Multi-function web application with translation, object detection, and visual search capabilities">
+    <meta name="theme-color" content="#1D7469">
+    
+    <title>Multi App - Translation & Object Detection</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    
+    <!-- Preload fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- App manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Multi App - Translation & Object Detection">
+    <meta property="og:description" content="Multi-function web application with translation, object detection, and visual search capabilities">
+    <meta property="og:type" content="website">
+    
+    <!-- iOS meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Multi App">
+    
+    <!-- PWA icons -->
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/icon-167x167.png">
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Loading indicator -->
+    <div id="loading" class="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-[#1D7469]"></div>
+    </div>
+
+    <!-- Error boundary -->
+    <div id="error" class="hidden fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div class="text-center p-8">
+            <h1 class="text-2xl font-bold text-red-600 mb-4">Oops! Something went wrong</h1>
+            <p class="text-gray-600 mb-4">Please try refreshing the page</p>
+            <button onclick="window.location.reload()" class="px-4 py-2 bg-[#1D7469] text-white rounded-lg">
+                Refresh Page
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Remove loading indicator when app is loaded
+        window.addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+        });
+
+        // Error handling
+        window.addEventListener('error', function(event) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'flex';
+        });
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+
+    <!-- App entry point -->
+    <script type="module" src="/_next/static/chunks/main.js"></script>
+</body>
+</html>
+
